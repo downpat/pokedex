@@ -2,6 +2,13 @@ Session for 2025-11-16
   Started @ 12:13pm
   Break ~2:20pm
   Re-started ~3:00pm
+  Finished @ 4:53pm
+
+  Final Notes on Session:
+    It's going to take a little extra config to get Django and Celery
+      to play nice together. Once that's done, we should be able to
+      finish the app rather quickly and then work on a compose file
+      that will make this portable.
 
 
   Plan
@@ -38,9 +45,9 @@ Session for 2025-11-16
       *-Design a model for a Pokemon and run a migration
       *-Use the Django CLI to save a few test Pokemon
     Step 3:
-      -Design a Dockerfile for a Redis server for the Celery task queue
+      *-Design a Dockerfile for a Redis server for the Celery task queue
     Step 4:
-      -Configure a Celery module to connect to the Redis container
+      *-Configure a Celery module to connect to the Redis container
       -Write a task in the Celery module that will take a pokemon name
         and URL and download the full JSON from the server and parse
         it to save a Pokemon model instance
