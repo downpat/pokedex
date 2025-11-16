@@ -1,0 +1,5 @@
+FROM postgres:18-alpine
+
+ENV POSTGRES_PASSWORD="gottaC47TCH#em477"
+ENV POSTGRES_USER=ash
+ENV POSTGRES_DB=pokedex

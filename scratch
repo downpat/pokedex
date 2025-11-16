@@ -1,0 +1,97 @@
+Session for 2025-11-16
+  Started @ 12:13pm
+  Break ~2:20pm
+  Re-started ~3:00pm
+
+
+  Plan
+    Setup a GitHub repo called pokedex
+    Read the Celery documentation and design a Docker solution
+      Host dockerfile - Python module that kicks off a pokedex
+      Worker dockerfile - Celery workers that perform operations in a batch
+      Compose file: Enable containers from the file to find each other and
+        scale the workers to handle different loads
+    Step 1:
+      -Implement the Dockerfiles above
+      -Demonstrate that they can talk to each other
+    Step 2:
+      -Have the Host fetch the full list of pokemon and get the URL for each
+      -Have the host distribute the list of pokemon to different workers to
+        build the Pokedex in parallel
+    Step 3:
+      -Package the solution and push to GitHub so it can run on any Docker system
+    Step 4:
+      -Test on a Windows docker system
+    Step 6:
+      -Upgrade the Host dockerfile to a full Django app
+      -Add a database and data models for the pokedex
+    Stpe 5:
+      -Add a UI that tracks progress and displays the pokedex
+
+  Revised Plan (after Celery Research)
+    Step 1:
+      *-Design a Dockerfile for a Django server
+      *-Get a Django Hello-World up and running
+    Step 2:
+      *-Design a Dockerfile for a PostgreSQL server
+      *-Connect the Django project to the PostgreSQL server
+      *-Design a model for a Pokemon and run a migration
+      *-Use the Django CLI to save a few test Pokemon
+    Step 3:
+      -Design a Dockerfile for a Redis server for the Celery task queue
+    Step 4:
+      -Configure a Celery module to connect to the Redis container
+      -Write a task in the Celery module that will take a pokemon name
+        and URL and download the full JSON from the server and parse
+        it to save a Pokemon model instance
+      -Write a startup script that starts celery and the Django server
+        in separate processes
+      -Update the server Dockerfile to include Celery dependencies and new startup script
+      -Run the server container with the startup script
+      -Write a Django view that calls the base endpoint for the Pokemon
+        API and starts downloading all the Pokemon in parallel
+      -Write a Django view that lists all the available pokemon
+      -Write a Django view that displays a single pokemon
+      -Write a homepage view that describes all the other views
+    Step 5:
+      -Design a Docker Compose file that will allow this app to run
+        in any Docker environment
+      -Test the whole app on Windows
+    Step 6: Demo the whole app on Windows
+
+  Project Notes
+    So after doing the celery research I think I'm going to change
+      the approach. Here's the container we're going to run:
+      -Main python container
+        -Runs a startup script that starts celery in a daemon
+          and runs a Django server as the primary command
+      -Celery Redis container
+      -PostgreSQL database
+
+
+  Demonstrations
+    Demo the app
+    Describe the needs of a new software company and how you can help
+
+  Celery Notes
+    So what celery does is it allows a python function to run many times
+      in parallel by running that function inside a "worker". Once a
+      function is defined, you have to run the celery application using
+      the celery binary. When the binary process is running, the function
+      where the worker is defined can be imported into other python processes,
+      and those processes can kickoff parallel procedures simply by
+      calling the imported function - provided the celery binary is running.
+    I honestly don't like this, because it means we're interfacing with
+      a task queue that operates on a separate process through python imports.
+      I was thinking I would be able to setup celery workers on one server,
+      and then call them from another server. It doesn't seem like that's
+      a standard use-case based on the documentation.
+    In fact, it seems like in order to use Celery at all, I have to run two
+      separate processes inside the same system - the Celery process that
+      runs the workers, and a separate python process (ipython, a Django app, etc)
+      that actually calls the workers.
+    That means if I want to do this with Docker I'm going to have to write a
+      startup script that starts both celery and whatever module actually kicks
+      off the celery tasks
+
+  How many cores are on my dev machine? 2 cores, 4 threads
