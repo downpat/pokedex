@@ -102,3 +102,48 @@ Session for 2025-11-16
       off the celery tasks
 
   How many cores are on my dev machine? 2 cores, 4 threads
+
+Session for 2025-11-17
+  Started at 2:22pm
+
+  Initial Thoughts
+    I'm thinking the main problem with my configuration yesteray
+    was the Celery entrypoint into the Django application. I'm
+    going to start by trying to correct that today
+    I also think I want to write a static method on the Pokemon
+    model that takes a Pokemon URL from the API and creates
+    a new instance
+    I can get the API calls right for that by using ipython
+
+  Today's Plan
+    Step 1:
+      *-Get the Celery entrypoint right and run a POC task
+        that can do a Django ORM operation
+      *-Write a static method on the Pokemon model that takes
+        an API URL and returns a new instance
+      *-Write a Celery Task in the Pokemon app that will take a pokemon name
+        and URL and create and save a new instance with the new static method
+      -Write a startup script that starts celery and the Django server
+        in separate processes
+      -Update the server Dockerfile to include Celery dependencies and new startup script
+      -Run the server container with the startup script
+      -Write a Django view that calls the base endpoint for the Pokemon
+        API and starts downloading all the Pokemon in parallel
+      -Write a Django view that lists all the available pokemon
+      -Write a Django view that displays a single pokemon
+      -Write a homepage view that describes all the other views
+    Step 2:
+      -Design a Docker Compose file that will allow this app to run
+        in any Docker environment
+      -Test the whole app on Windows
+    Step 3: Demo the whole app on Windows
+
+  Notes on Celery Entrypoint
+    For whatever reason, the "broker" parameter that's fed into the main Celery
+      constructor needs to be "broker_url" in a settings file, so with the namespace
+      applied to the Django settings, it became "CELERY_BROKER_URL".
+    Once that setting was correct, I simply ran an "sh" instance in the Django container
+      using docker exec and used that session to get the right command for the
+      celery binary. Once the config and entrypoint was correct, I was able to
+      run a celery task inside the Django CLI that was defined in pokemon.tasks
+      and could run an ORM operation, saving a Pokemon model

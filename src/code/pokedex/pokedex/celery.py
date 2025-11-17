@@ -10,6 +10,9 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.autodiscover_tasks()
 
+print('Celery Config Loaded:')
+print(app.conf)
+
 @app.task(bind=True)
 def load_pokedex(name, url):
     print(f'Loading pokemon {name} using {url}')
