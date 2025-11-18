@@ -7,7 +7,7 @@ DATABASES = {
         'NAME': 'pokedex',
         'USER': 'ash',
         'PASSWORD': 'gottaC47TCH#em477',
-        'HOST': '192.168.165.26',
+        'HOST': 'pokedex-db',
         'PORT': 5432
     }
 }
@@ -15,4 +15,4 @@ DATABASES = {
 
 REDIS_PASS = "gottaC47TCHem477"
 
-CELERY_BROKER_URL = f'redis://:{REDIS_PASS}@192.168.165.26:6379/0'
+CELERY_BROKER_URL = f'redis://:{REDIS_PASS}@pokedex-redis:6379/0'

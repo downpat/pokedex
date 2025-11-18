@@ -15,5 +15,4 @@ COPY ./ /pokedex/src
 
 WORKDIR /pokedex/src/code/pokedex
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"] 
-#CMD ["celery", "-A", "dex_writer", "worker", "--loglevel=INFO"]
+CMD ["python", "run.py"] 

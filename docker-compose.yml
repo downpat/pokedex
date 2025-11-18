@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  pokedex-db:
+    build:
+      context: src
+      dockerfile: db.Dockerfile
+    image: pokedex-db
+    container_name: pokedex-db
+
+  pokedex-redis:
+    build:
+      context: src
+      dockerfile: redis.Dockerfile
+    image: pokedex-redis
+    container_name: pokedex-redis
+
+  pokedex-svc:
+    build:
+      context: src
+      dockerfile: server.Dockerfile
+    image: pokedex-svc
+    container_name: pokedex-svc
+    ports:
+      - "0.0.0.0:31001:31001"
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    depends_on:
+      - pokedex-db
+      - pokedex-redis

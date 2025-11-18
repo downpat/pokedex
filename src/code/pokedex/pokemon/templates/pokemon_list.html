@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <title>Pokedex</title>
+  </head>
+  <body>
+    <h2>The Full Pokedex</h2>
+    <h3>Total Count: {{ count }}</h3>
+    <ul>
+    {% for monster in pokemon %}
+      <li><a href="/pokemon/{{ monster.name }}">{{ monster.name }}</a></li>
+    {% endfor %}
+    </ul>
+  </body>
+</html>

@@ -105,6 +105,9 @@ Session for 2025-11-16
 
 Session for 2025-11-17
   Started at 2:22pm
+  Break ~4:00
+  Re-started @ 4:28pm
+  Finished on Linux @ 7:06pm
 
   Initial Thoughts
     I'm thinking the main problem with my configuration yesteray
@@ -123,17 +126,21 @@ Session for 2025-11-17
         an API URL and returns a new instance
       *-Write a Celery Task in the Pokemon app that will take a pokemon name
         and URL and create and save a new instance with the new static method
-      -Write a startup script that starts celery and the Django server
+      *-Write a startup script that starts celery and the Django server
         in separate processes
-      -Update the server Dockerfile to include Celery dependencies and new startup script
-      -Run the server container with the startup script
-      -Write a Django view that calls the base endpoint for the Pokemon
+      *-Update the server Dockerfile to include Celery dependencies and new startup script
+      *-Run the server container with the startup script
+      *-Write a Django view that calls the base endpoint for the Pokemon
         API and starts downloading all the Pokemon in parallel
-      -Write a Django view that lists all the available pokemon
-      -Write a Django view that displays a single pokemon
-      -Write a homepage view that describes all the other views
+        -This is the big one. I think I need to reduce the number of
+          processes that celery allows so there's still CPU for the webserver
+          That ended up not being necessary. Performance doesn't seem to be
+          a bottle neck to running both processes
+      *-Write a Django view that lists all the available pokemon
+      *-Write a Django view that displays a single pokemon
+      *-Write a homepage view that describes all the other views
     Step 2:
-      -Design a Docker Compose file that will allow this app to run
+      *-Design a Docker Compose file that will allow this app to run
         in any Docker environment
       -Test the whole app on Windows
     Step 3: Demo the whole app on Windows

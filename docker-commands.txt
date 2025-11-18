@@ -1,6 +1,10 @@
 docker build -f server.Dockerfile -t pokedex-svc .
 docker run -it -p 8000:8000 -v /home/pat/Development/peak-nano/pokedex/src/:/pokedex/src pokedex-svc
+docker run -it -p 8000:8000 -v /home/pat/Development/peak-nano/pokedex/src/:/pokedex/src pokedex-svc python manage.py shell
+docker run -it -p 8000:8000 -v /home/pat/Development/peak-nano/pokedex/src/:/pokedex/src pokedex-svc python run.py
 docker run -it -p 8000:8000 pokedex-svc
+docker run -it -p 31001:31001 pokedex-svc
+
 
 docker build -t pokedex-db -f db.Dockerfile .
 docker run -it -v /home/pat/Development/peak-nano/data:/var/lib/postgresql -p 5432:5432 pokedex-db
